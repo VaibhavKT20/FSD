@@ -1,0 +1,2 @@
+dog.Name();
+cat.LegCount();
