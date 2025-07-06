@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .todo-item {
+        background: #f4f4f4;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        position: relative;
+      }
+      .done {
+        text-decoration: line-through;
+        color: gray;
+      }
+      .mark-done-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Todo List</h2>
+    <input type="text" id="todoInput" placeholder="Title" />
+    <br /><br />
+    <input type="text" id="todoInput2" placeholder="Description" />
+    <br /><br />
+    <button onclick="addTodo()">Add Todo</button>
+    <br /><br />
+
+    <div id="todoList"></div>
+
+    <script>
+      function addTodo() {
+        const title = document.getElementById("todoInput").value;
+        const description = document.getElementById("todoInput2").value;
+
+        if (title.trim() === "" || description.trim() === "") {
+          alert("Please enter both title and description.");
+          return;
+        }
+
+        const todoList = document.getElementById("todoList");
+
+        const todoItem = document.createElement("div");
+        todoItem.className = "todo-item";
+
+        const contentDiv = document.createElement("div");
+        contentDiv.innerHTML = `<strong>${title}</strong><p>${description}</p>`;
+
+        const doneButton = document.createElement("button");
+        doneButton.textContent = "Mark as Done";
+        doneButton.className = "mark-done-btn";
+        doneButton.onclick = function () {
+          contentDiv.classList.toggle("done");
+          doneButton.textContent = contentDiv.classList.contains("done")
+            ? "Undo"
+            : "Mark as Done";
+        };
+
+        todoItem.appendChild(contentDiv);
+        todoItem.appendChild(doneButton);
+        todoList.appendChild(todoItem);
+
+        // Clear inputs
+        document.getElementById("todoInput").value = "";
+        document.getElementById("todoInput2").value = "";
+      }
+    </script>
+  </body>
+</html>
