@@ -1,5 +1,4 @@
 const zod = require("zod");
-const { de } = require("zod/v4/locales");
 
 const createTodo = zod.object({
   title: zod.string(),
@@ -11,6 +10,6 @@ const updateTodo = zod.object({
 });
 
 module.exports = {
-  createTodo: createTodo,
-  updateTodo: updateTodo,
+  createTodo,
+  updateTodo,
 };
