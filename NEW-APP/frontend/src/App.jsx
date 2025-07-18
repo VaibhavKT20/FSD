@@ -6,9 +6,13 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   const fetchTodos = async () => {
-    const res = await fetch("http://localhost:3000/todos");
-    const data = await res.json();
-    setTodos(data.todos);
+    try {
+      const res = await fetch("http://localhost:3000/todos");
+      const data = await res.json();
+      setTodos(data.todos);
+    } catch (error) {
+      console.error("Failed to fetch todos", error);
+    }
   };
 
   useEffect(() => {
@@ -16,20 +20,39 @@ function App() {
   }, []);
 
   const addTodo = async (title, description) => {
-    await fetch("http://localhost:3000/todo", {
-      method: "POST",
-      body: JSON.stringify({ title, description }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    fetchTodos(); // Refresh after adding
+    try {
+      await fetch("http://localhost:3000/todo", {
+        method: "POST",
+        body: JSON.stringify({ title, description }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      fetchTodos();
+    } catch (error) {
+      console.error("Failed to add todo", error);
+    }
+  };
+
+  const markCompleted = async (id) => {
+    try {
+      await fetch("http://localhost:3000/completed", {
+        method: "PUT",
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      fetchTodos();
+    } catch (error) {
+      console.error("Failed to update todo", error);
+    }
   };
 
   return (
     <div>
       <CreateTodo addTodo={addTodo} />
-      <Todos todos={todos} />
+      <Todos todos={todos} markCompleted={markCompleted} />
     </div>
   );
 }
