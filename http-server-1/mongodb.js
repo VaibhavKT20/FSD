@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
+// MongoDB connection
+const dbUrl = process.env.MONGODB_URL;
 mongoose
-  .connect(
-    "mongodb+srv://vaibhavkr522:vaibhav123456789@cluster0.mrczwf7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -15,15 +19,23 @@ mongoose
     console.error("MongoDB connection error:", err);
   });
 
-const User = mongoose.model("Users", {
-  name: String,
+// Define User schema and model
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   age: Number,
-  email: String,
-  password: String,
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
-// Signup Route (async)
+
+const User = mongoose.model("Users", userSchema);
+
+// Signup Route
 app.post("/signup", async (req, res) => {
   const { username, password, name } = req.body;
+
+  if (!username || !password || !name) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
   try {
     const existingUser = await User.findOne({ email: username });
@@ -31,10 +43,12 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "User already exists" });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = new User({
       name,
       email: username,
-      password,
+      password: hashedPassword,
     });
 
     await user.save();
@@ -42,11 +56,12 @@ app.post("/signup", async (req, res) => {
     res.json({ msg: "User created successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 
 // Start the server
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
