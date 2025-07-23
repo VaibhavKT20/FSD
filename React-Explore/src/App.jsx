@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Rerender from "./components/Rerender";
 import Todo from "./components/Todo";
+import CardWrapper from "./components/CardWrapper";
 
 function Header({ title }) {
   return <div>{title}</div>;
@@ -14,7 +15,8 @@ function App() {
     <>
       {/* <Rerender />
       <Header title="Raman" /> */}
-      <Todo />
+      {/* <Todo /> */}
+      <CardWrapper innerComponent={TextComponent} />
     </>
   );
 }
