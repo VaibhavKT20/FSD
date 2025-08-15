@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import React from "react";
 import Dashboard from "../components/Dashboard";
 import Landing from "../components/landing";
@@ -30,27 +30,43 @@ import Landing from "../components/landing";
 
 // export default App;
 
+// function App() {
+//   return (
+//     <div>
+//       <div>
+//         <button
+//           onClick={() => {
+//             window.location.href = "/";
+//           }}
+//         >
+//           Landing page
+//         </button>
+//         <button
+//           onClick={() => {
+//             window.location.href = "/dashboard";
+//           }}
+//         >
+//           Dashboard
+//         </button>
+//       </div>
+
+//       <BrowserRouter>
+//         <Routes>
+//           <Route path="/dashboard" element={<Dashboard />} />
+//           <Route path="/" element={<Landing />} />
+//         </Routes>
+//       </BrowserRouter>
+//     </div>
+//   );
+// }
+
+// export default App;
+
 function App() {
   return (
     <div>
-      <div>
-        <button
-          onClick={() => {
-            window.location.href = "/";
-          }}
-        >
-          Landing page
-        </button>
-        <button
-          onClick={() => {
-            window.location.href = "/dashboard";
-          }}
-        >
-          Dashboard
-        </button>
-      </div>
-
       <BrowserRouter>
+        <Appbar></Appbar>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/" element={<Landing />} />
@@ -58,6 +74,31 @@ function App() {
       </BrowserRouter>
     </div>
   );
+
+  function Appbar() {
+    const navigate = useNavigate();
+    return (
+      <div>
+        <div>
+          <button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Landing
+          </button>
+          <button
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+          >
+            Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
+
