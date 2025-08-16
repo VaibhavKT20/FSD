@@ -32,15 +32,17 @@
 //Recoil/Redux Example
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { counterState } from "./store/counterAtom";
+import { counterState, evenSelector } from "./store/counterAtom";
 
 function Counter() {
   const [count, setCount] = useRecoilState(counterState);
+  const evenOdd = useRecoilValue(evenSelector);
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h2>Counter: {count}</h2>
       <button onClick={() => setCount(count + 1)}>Increment</button>
+
       <button
         onClick={() => setCount(count - 1)}
         style={{ marginLeft: "10px" }}
@@ -50,6 +52,9 @@ function Counter() {
       <button onClick={() => setCount(0)} style={{ marginLeft: "10px" }}>
         Reset
       </button>
+      <div style={{ marginTop: "20px", fontWeight: "bold" }}>
+        It is {evenOdd}
+      </div>
     </div>
   );
 }
