@@ -18,6 +18,12 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
   res.send("<h1>Please signup to continue</h1>");
 });
+app.get("/youtube", (req, res) => {
+  res.send("Youtube API endpoint");
+});
+app.get("/github", (req, res) => {
+  res.json({ message: "Github API endpoint" });
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
