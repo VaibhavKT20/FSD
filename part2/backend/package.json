@@ -1,16 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend basic",
-  "keywords": [
-    "node"
-  ],
+  "description": "",
   "license": "ISC",
-  "author": "vaibhav kumar",
+  "author": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

@@ -1,5 +1,8 @@
-const express = require("express");
-require("dotenv").config();
+// const express = require("express");
+import express from "express";
+// require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -24,6 +27,20 @@ app.get("/youtube", (req, res) => {
 app.get("/github", (req, res) => {
   res.json({ message: "Github API endpoint" });
 });
+
+//get a list of 5 jokes
+
+app.get("/jokes", (req, res) => {
+  const jokes = [
+    "Why don't scientists trust atoms? Because they make up everything!",
+    "Why did the scarecrow win an award? Because he was outstanding in his field!",
+    "Why don't skeletons fight each other? They don't have the guts.",
+    "What do you call fake spaghetti? An impasta!",
+    "Why did the bicycle fall over? Because it was two-tired!",
+  ];
+  res.json({ jokes: jokes });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
